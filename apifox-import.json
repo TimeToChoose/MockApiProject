@@ -1,0 +1,80 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "MockApiProject API",
+    "description": "用于 Android 学习项目的 Mock 接口定义",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "获取用户列表",
+        "operationId": "get-users",
+        "responses": {
+          "200": {
+            "description": "成功返回用户列表",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "张三"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "zhangsan@example.com"
+                      },
+                      "avatar": {
+                        "type": "string",
+                        "example": "https://reqres.in/img/faces/1-image.jpg"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "email",
+                      "avatar"
+                    ]
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "summary": "默认示例",
+                    "value": [
+                      {
+                        "id": 1,
+                        "name": "Michael Lawson",
+                        "email": "michael.lawson@reqres.in",
+                        "avatar": "https://reqres.in/img/faces/7-image.jpg"
+                      },
+                      {
+                        "id": 2,
+                        "name": "Lindsay Ferguson",
+                        "email": "lindsay.ferguson@reqres.in",
+                        "avatar": "https://reqres.in/img/faces/8-image.jpg"
+                      },
+                      {
+                        "id": 3,
+                        "name": "Tobias Funke",
+                        "email": "tobias.funke@reqres.in",
+                        "avatar": "https://reqres.in/img/faces/9-image.jpg"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
