@@ -16,6 +16,7 @@ import com.shineofeidos.mockapiproject.ui.screens.CustomViewLearningScreen
 import com.shineofeidos.mockapiproject.ui.screens.HomeScreen
 import com.shineofeidos.mockapiproject.ui.screens.MemoryLeakScreen
 import com.shineofeidos.mockapiproject.ui.screens.NetworkLearningScreen
+import com.shineofeidos.mockapiproject.ui.screens.TouchEventLearningScreen
 import com.shineofeidos.mockapiproject.ui.theme.MockApiProjectTheme
 
 class MainActivity : ComponentActivity() {
@@ -44,7 +45,8 @@ fun MainApp() {
                 HomeScreen(
                     onNavigateToNetwork = { navController.navigate("network") },
                     onNavigateToCustomView = { navController.navigate("custom_view") },
-                    onNavigateToMemoryLeak = { navController.navigate("memory_leak") }
+                    onNavigateToMemoryLeak = { navController.navigate("memory_leak") },
+                    onNavigateToTouchEvent = { navController.navigate("touch_event") }
                 )
             }
             
@@ -58,6 +60,10 @@ fun MainApp() {
 
             composable("memory_leak") {
                 MemoryLeakScreen(onBack = { navController.popBackStack() })
+            }
+
+            composable("touch_event") {
+                TouchEventLearningScreen(onBack = { navController.popBackStack() })
             }
         }
     }

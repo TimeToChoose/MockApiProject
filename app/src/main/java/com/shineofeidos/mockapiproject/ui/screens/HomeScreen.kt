@@ -18,6 +18,7 @@ fun HomeScreen(
     onNavigateToNetwork: () -> Unit,
     onNavigateToCustomView: () -> Unit,
     onNavigateToMemoryLeak: () -> Unit,
+    onNavigateToTouchEvent: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -64,6 +65,12 @@ fun HomeScreen(
             title = "内存优化 (Memory Leak)",
             description = "单例泄漏案例, Profiler 阶梯图分析",
             onClick = onNavigateToMemoryLeak
+        )
+
+        LearningCard(
+            title = "触摸分发与滑动冲突 (Touch)",
+            description = "事件分发顺序, 滑动冲突与拦截策略",
+            onClick = onNavigateToTouchEvent
         )
     }
 }
