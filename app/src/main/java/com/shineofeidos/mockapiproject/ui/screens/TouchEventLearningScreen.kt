@@ -21,6 +21,7 @@ import kotlin.math.abs
 @Composable
 fun TouchEventLearningScreen(
     onBack: () -> Unit,
+    onNavigateToGuide: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val eventLogs = remember { mutableStateListOf<String>() }
@@ -163,10 +164,13 @@ fun TouchEventLearningScreen(
                     }
 
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        OutlinedButton(onClick = { eventLogs.clear() }) {
-                            Text("清空日志")
-                        }
+                    OutlinedButton(onClick = { eventLogs.clear() }) {
+                        Text("清空日志")
                     }
+                    Button(onClick = onNavigateToGuide) {
+                        Text("查看学习指南")
+                    }
+                }
 
                     Card(
                         modifier = Modifier.fillMaxWidth(),

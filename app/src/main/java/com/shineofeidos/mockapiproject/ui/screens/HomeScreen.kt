@@ -19,6 +19,7 @@ fun HomeScreen(
     onNavigateToCustomView: () -> Unit,
     onNavigateToMemoryLeak: () -> Unit,
     onNavigateToTouchEvent: () -> Unit,
+    onNavigateToTouchEventLegacy: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -71,6 +72,12 @@ fun HomeScreen(
             title = "触摸分发与滑动冲突 (Touch)",
             description = "事件分发顺序, 滑动冲突与拦截策略",
             onClick = onNavigateToTouchEvent
+        )
+
+        LearningCard(
+            title = "触摸分发与滑动冲突 (Legacy View)",
+            description = "View 事件分发, 滑动冲突与拦截策略",
+            onClick = onNavigateToTouchEventLegacy
         )
     }
 }

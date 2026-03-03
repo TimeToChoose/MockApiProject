@@ -15,6 +15,12 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.MockApiProject">
         <activity
+            android:name=".ui.screens.TouchEventLegacyActivity"
+            android:exported="false"
+            android:label="触摸分发与滑动冲突"
+            android:theme="@style/Theme.MockApiProject" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
