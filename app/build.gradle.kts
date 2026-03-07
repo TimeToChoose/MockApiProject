@@ -1,3 +1,7 @@
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.TimeZone
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -58,6 +62,7 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.coil.compose)
     implementation(libs.markdown.compose)
+    implementation(libs.eventbus)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
@@ -66,4 +71,106 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+// APK 重命名任务
+// 保持默认输出文件名，避免 Flutter CLI 扫描产物失败
+tasks.register("renameReleaseApk") {
+    doLast {
+        val df = SimpleDateFormat("MM-dd-HH-mm")
+        df.timeZone = TimeZone.getTimeZone("Asia/Shanghai")
+        val ts = df.format(Date())
+        val prefix = "mockapi"
+        val ver = android.defaultConfig.versionName
+        val newName = "${prefix}_${ver}-${ts}-release.apk"
+        val outputsDir = file("${layout.buildDirectory.get()}/intermediates/apk/release")
+        val apk = File(outputsDir, "app-release.apk")
+        if (apk.exists()) {
+            val projectRoot = rootProject.projectDir
+            val destDir = File(projectRoot, "apk/release")
+            if (!destDir.exists()) destDir.mkdirs()
+            copy {
+                from(apk)
+                into(destDir)
+            }
+            val copied = File(destDir, "app-release.apk")
+            val target = File(destDir, newName)
+            if (target.exists()) target.delete()
+            if (copied.exists()) {
+                copied.renameTo(target)
+                File(destDir, "app-release.apk").delete()
+            }
+            val meta = File(outputsDir, "output-metadata.json")
+            val metaDest = File(destDir, "output-metadata.json")
+            if (metaDest.exists()) metaDest.delete()
+            if (meta.exists()) {
+                copy {
+                    from(meta)
+                    into(destDir)
+                }
+            }
+            destDir.listFiles { _, name ->
+                name.startsWith("mockapi_") && name.endsWith("-release.apk") && name != newName
+            }?.forEach { it.delete() }
+            println("Release APK copied to: ${File(destDir, newName).absolutePath}")
+        } else {
+            println("Release APK not found at: ${apk.absolutePath}")
+        }
+    }
+}
+
+tasks.register("renameDebugApk") {
+    doLast {
+        val df = SimpleDateFormat("MM-dd-HH-mm")
+        df.timeZone = TimeZone.getTimeZone("Asia/Shanghai")
+        val ts = df.format(Date())
+        val prefix = "mockapi"
+        val ver = android.defaultConfig.versionName
+        val expected = "${prefix}_${ver}-${ts}-debug.apk"
+
+        val projectRoot = rootProject.projectDir
+        val destDir = File(projectRoot, "apk/debug")
+        if (!destDir.exists()) destDir.mkdirs()
+
+        val outputsDir = file("${layout.buildDirectory.get()}/intermediates/apk/debug")
+        val apk = File(outputsDir, "app-debug.apk")
+        if (apk.exists()) {
+            copy {
+                from(apk)
+                into(destDir)
+            }
+            val copied = File(destDir, "app-debug.apk")
+            val target = File(destDir, expected)
+            if (target.exists()) target.delete()
+            if (copied.exists()) {
+                copied.renameTo(target)
+                File(destDir, "app-debug.apk").delete()
+            }
+            val meta = File(outputsDir, "output-metadata.json")
+            val metaDest = File(destDir, "output-metadata.json")
+            if (metaDest.exists()) metaDest.delete()
+            if (meta.exists()) {
+                copy {
+                    from(meta)
+                    into(destDir)
+                }
+            }
+            println("Debug APK copied to: ${File(destDir, expected).absolutePath}")
+        } else {
+            println("Debug APK not found at: ${apk.absolutePath}")
+        }
+
+        destDir.listFiles { _, name ->
+            name.startsWith("mockapi_") && name.endsWith("-debug.apk") && name != expected
+        }?.forEach { it.delete() }
+    }
+}
+
+tasks.whenTaskAdded {
+    if (name == "assembleRelease") {
+        finalizedBy("renameReleaseApk")
+    }
+    if (name == "assembleDebug") {
+        finalizedBy("renameDebugApk")
+    }
 }

@@ -17,6 +17,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.shineofeidos.mockapiproject.ui.screens.CustomViewLearningScreen
+import com.shineofeidos.mockapiproject.ui.screens.EventBusAdvancedScreenContent
+import com.shineofeidos.mockapiproject.ui.screens.EventBusComparisonScreenContent
+import com.shineofeidos.mockapiproject.ui.screens.EventBusLearningScreenContent
+import com.shineofeidos.mockapiproject.ui.screens.EventBusMainScreen
+import com.shineofeidos.mockapiproject.ui.screens.HandlerLearningScreenContent
 import com.shineofeidos.mockapiproject.ui.screens.HomeScreen
 import com.shineofeidos.mockapiproject.ui.screens.MarkdownScreen
 import com.shineofeidos.mockapiproject.ui.screens.MemoryLeakScreen
@@ -73,7 +78,8 @@ fun MainApp() {
                                 )
                             }
                         }
-                    }
+                    },
+                    onNavigateToEventBusMain = { navController.navigate("event_bus_main") }
                 )
             }
             
@@ -98,6 +104,32 @@ fun MainApp() {
 
             composable("touch_guide") {
                 MarkdownScreen(onBack = { navController.popBackStack() })
+            }
+
+            composable("handler") {
+                HandlerLearningScreenContent()
+            }
+
+            composable("event_bus") {
+                EventBusLearningScreenContent()
+            }
+
+            composable("event_bus_comparison") {
+                EventBusComparisonScreenContent()
+            }
+
+            composable("event_bus_advanced") {
+                EventBusAdvancedScreenContent()
+            }
+
+            composable("event_bus_main") {
+                EventBusMainScreen(
+                    onNavigateToHandler = { navController.navigate("handler") },
+                    onNavigateToCustomBusEvent = { navController.navigate("event_bus") },
+                    onNavigateToEventBusComparison = { navController.navigate("event_bus_comparison") },
+                    onNavigateToEventBusAdvanced = { navController.navigate("event_bus_advanced") },
+                    onBack = { navController.popBackStack() }
+                )
             }
         }
     }

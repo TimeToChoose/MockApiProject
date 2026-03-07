@@ -20,11 +20,12 @@ fun HomeScreen(
     onNavigateToMemoryLeak: () -> Unit,
     onNavigateToTouchEvent: () -> Unit,
     onNavigateToTouchEventLegacy: () -> Unit,
+    onNavigateToEventBusMain: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     var lastBackPressTime by remember { mutableLongStateOf(0L) }
-    
+
     BackHandler {
         val currentTime = System.currentTimeMillis()
         if (currentTime - lastBackPressTime < 2000) {
@@ -47,15 +48,15 @@ fun HomeScreen(
             text = "Android 进阶学习",
             style = MaterialTheme.typography.headlineMedium
         )
-        
+
         Spacer(modifier = Modifier.height(24.dp))
-        
+
         LearningCard(
             title = "网络架构 (Network)",
             description = "Retrofit, OkHttp, MVVM, Repository",
             onClick = onNavigateToNetwork
         )
-        
+
         LearningCard(
             title = "自定义 View (Custom View)",
             description = "Measure, Draw, Bezier, Xfermode",
@@ -78,6 +79,12 @@ fun HomeScreen(
             title = "触摸分发与滑动冲突 (Legacy View)",
             description = "View 事件分发, 滑动冲突与拦截策略",
             onClick = onNavigateToTouchEventLegacy
+        )
+
+        LearningCard(
+            title = "事件总线学习",
+            description = "Handler → 自研BusEvent → EventBus 完整学习路径",
+            onClick = onNavigateToEventBusMain
         )
     }
 }
