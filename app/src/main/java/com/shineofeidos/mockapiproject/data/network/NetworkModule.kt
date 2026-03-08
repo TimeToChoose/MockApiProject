@@ -7,11 +7,23 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object NetworkModule {
-    // TODO: 请将此处替换为你的 Apifox 云端 Mock 地址或者本地 Mock 地址
     // 注意：Base URL 必须以 / 结尾
-    // 真机调试：请确保手机和电脑在同一 Wi-Fi 下，并使用电脑的局域网 IP
+    // 根据你的运行环境切换对应的 BASE_URL
+
+    // 1. Genymotion 虚拟机专用（推荐在 Genymotion 中使用）
+    // Genymotion 通过 10.0.3.2 访问宿主机
+    private const val BASE_URL_GENYMOTION = "http://10.0.3.2:4523/m1/7815393-7563142-default/"
+
+    // 2. 真机调试专用（确保手机和电脑在同一 Wi-Fi 下）
     // 当前检测到的局域网 IP 为: 192.168.2.52
-    private const val BASE_URL = "http://192.168.2.52:4523/m1/7815393-7563142-default/"
+    private const val BASE_URL_REAL_DEVICE = "http://192.168.2.52:4523/m1/7815393-7563142-default/"
+
+    // 3. Android 官方模拟器专用
+    // Android Emulator 通过 10.0.2.2 访问宿主机
+    private const val BASE_URL_EMULATOR = "http://10.0.2.2:4523/m1/7815393-7563142-default/"
+
+    // 当前使用的 BASE_URL，根据你的环境切换
+    private const val BASE_URL = BASE_URL_GENYMOTION
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         // BODY 级别会打印请求头、请求体、响应头、响应体，最详细，适合调试
