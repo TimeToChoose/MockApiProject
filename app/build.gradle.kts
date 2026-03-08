@@ -24,6 +24,22 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions.add("environment")
+    productFlavors {
+        create("genymotion") {
+            dimension = "environment"
+            buildConfigField("String", "BASE_URL", "\"http://10.0.3.2:4523/m1/7815393-7563142-default/\"")
+        }
+        create("realdevice") {
+            dimension = "environment"
+            buildConfigField("String", "BASE_URL", "\"http://192.168.2.128:4523/m1/7815393-7563142-default/\"")
+        }
+        create("emulator") {
+            dimension = "environment"
+            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:4523/m1/7815393-7563142-default/\"")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -42,6 +58,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
